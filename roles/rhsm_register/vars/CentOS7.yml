@@ -1,5 +1,0 @@
----
-rhsm_enabled_repos:
-  - CentOS-7_-_Base_RPMs_x86_64
-  - CentOS-7_-_Updates_RPMs_x86_64
-  - CentOS-7_-_Extras_RPMs_x86_64
