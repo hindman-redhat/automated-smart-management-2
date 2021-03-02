@@ -1,0 +1,38 @@
+---
+#- name: Stop instances
+#  ec2_instance:
+#    instance_id: "{{item}}"
+#    state: stopped
+#    delegate_to: localhost
+#  with_items: "{{instances_details.instances|map(attribute='id')|list|unique}}"
+
+- name: Shutdown node
+  become: yes
+  shell: >
+    sleep 2 && /sbin/shutdown -c && /sbin/shutdown -h now
+  async: 1
+  poll: 0
+
+- name: Debug output for instances_details.instances
+  debug:
+    msg: "{{ instances_details.instances }}"
+  when: display_debug_output
+
+- name: Display instance IP address and EBS volume ID.
+  debug:
+    msg:
+      - "Instance: {{ item.0 }} has IP address: {{ item.1 }}"
+      - "Instance: {{ item.0 }} EBS volume ID: {{ item.2.ebs.volume_id }}"
+  with_together:
+    - "{{ instances_details.instances|map(attribute='tags.Name')|list }}"
+    - "{{ instances_details.instances|map(attribute='private_ip_address')|list }}"
+    - "{{ instances_details.instances|map(attribute='block_device_mappings') | list }}"
+  when: display_debug_output
+
+- name: ensure host is down via ssh port probe 
+  wait_for: "port=22 host={{ ansible_host_node_fqdn }} delay=10 state=stopped timeout=60"
+  delegate_to: localhost
+  connection: local
+  vars:
+    pub_fqdn_query: "[0]|network_interfaces[0].association.public_dns_name"
+    ansible_host_node_fqdn: "{{ instances_details.instances | json_query(pub_fqdn_query) }}" 

@@ -1,0 +1,7 @@
+---
+# vars file for ec2_node_start_stop
+
+instances:
+  tags:
+    guid: 'ptdlab01'
+    Student: 'student1'
