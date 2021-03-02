@@ -3,10 +3,10 @@
   connection: local
   vars:
     satellite_infra_workloads:
+      - theforeman.foreman.repositories
       - theforeman.foreman.lifecycle_environments
       - content_views
       - theforeman.foreman.activation_keys
-
 
   tasks:
     - name: check satellite status
