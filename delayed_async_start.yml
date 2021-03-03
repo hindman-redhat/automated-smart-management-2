@@ -2,6 +2,10 @@
 - hosts: all
   tasks:
   - name: Randomized startup delay...
-    pause: seconds="{{ 5 | random }}"
+    pause: seconds="{{ 10 | random }}"
+    async: 45
+    poll: 0
 
+- hosts: all
+  tasks:
   - debug:
