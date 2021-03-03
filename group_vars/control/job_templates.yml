@@ -1,6 +1,6 @@
 ---
 tower_templates:
-  - name: SERVER / Register - RHEL
+  - name: SERVER / Register - RHEL7
     project: Automated Management
     playbook: server_register.yml
     inventory: Workshop Inventory
@@ -27,7 +27,7 @@ tower_templates:
             - Prod
           required: true
 
-  - name: SERVER / Register - CentOS
+  - name: SERVER / Register - CentOS7
     project: Automated Management
     playbook: server_register.yml
     inventory: Workshop Inventory
@@ -54,7 +54,7 @@ tower_templates:
             - Prod
           required: true
 
-  - name: Satellite / Publish Content View - RHEL
+  - name: Satellite / Publish Content View - RHEL7
     project: Automated Management
     playbook: satellite_publish.yml
     inventory: Workshop Inventory
@@ -146,7 +146,7 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | list}}"
           required: true  
 
-  - name: Server / Patch - RHEL
+  - name: Server / Patch - RHEL7
     project: Automated Management
     playbook: server_patch.yml
     inventory: Workshop Inventory
@@ -172,7 +172,7 @@ tower_templates:
             - 'no'
           required: true
 
-  - name: Server / Patch - CentOS
+  - name: Server / Patch - CentOS7
     project: Automated Management
     playbook: server_patch.yml
     inventory: Workshop Inventory
@@ -198,7 +198,7 @@ tower_templates:
             - 'no'
           required: true
 
-  - name: Server / Fact Scan - RHEL
+  - name: Server / Fact Scan - RHEL7
     project: Fact Scan
     playbook: scan_facts.yml
     inventory: Workshop Inventory
@@ -208,7 +208,7 @@ tower_templates:
       - RHEL Credential
     limit: rhel7
 
-  - name: Server / Fact Scan - CentOS
+  - name: Server / Fact Scan - CentOS7
     project: Fact Scan
     playbook: scan_facts.yml
     inventory: Workshop Inventory
