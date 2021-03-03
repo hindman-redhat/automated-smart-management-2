@@ -7,6 +7,9 @@
     - scap_client
 
   tasks:
+  - name: Randomized startup delay...
+    pause: seconds="{{ 5 | random }}"
+
   - name: "Run SCAP Scan"
     shell: "/usr/bin/foreman_scap_client {{ item.id }}"
     loop: "{{ policy }}"
