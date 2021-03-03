@@ -3,9 +3,5 @@
   tasks:
   - name: Randomized startup delay...
     command: /bin/sleep "{{ ( inventory_hostname | hash | list | map('int',0,16) | sum ) % 60 }}"
-    async: 60
-    poll: 0
-
-- hosts: all
-  tasks:
   - debug:
+      var=ansible_date_time.time
