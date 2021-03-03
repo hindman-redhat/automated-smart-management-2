@@ -2,7 +2,9 @@
 - hosts: all
   tasks:
   - name: Randomized startup delay...
-    pause: seconds="{{ 10 | random }}"
+    command: /bin/sleep "{{ 10 | random }}"
+    delegate_to: localhost
+    connection: local
     async: 45
     poll: 0
 
