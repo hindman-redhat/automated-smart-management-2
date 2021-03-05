@@ -54,7 +54,7 @@ tower_templates:
             - Prod
           required: true
 
-  - name: Satellite / Publish Content View - RHEL7
+  - name: SATELLITE / Publish Content View - RHEL
     project: Automated Management
     playbook: satellite_publish.yml
     inventory: Workshop Inventory
@@ -73,7 +73,7 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^RHEL.*$') | list}}"
           required: true
 
-  - name: Satellite / Publish Content View - CentOS
+  - name: SATELLITE / Publish Content View - CentOS
     project: Automated Management
     playbook: satellite_publish.yml
     inventory: Workshop Inventory
@@ -92,7 +92,7 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^CentOS.*$') | list}}"
           required: true
 
-  - name: Satellite / Promote Content View - RHEL
+  - name: SATELLITE / Promote Content View - RHEL
     project: Automated Management
     playbook: satellite_promote.yml
     inventory: Workshop Inventory
@@ -119,7 +119,7 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^RHEL.*$') | list}}"
           required: true
 
-  - name: Satellite / Promote Content View - CentOS
+  - name: SATELLITE / Promote Content View - CentOS
     project: Automated Management
     playbook: satellite_promote.yml
     inventory: Workshop Inventory
@@ -146,7 +146,7 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | list}}"
           required: true  
 
-  - name: Server / Patch - RHEL7
+  - name: SERVER / Patch - RHEL7
     project: Automated Management
     playbook: server_patch.yml
     inventory: Workshop Inventory
@@ -172,7 +172,7 @@ tower_templates:
             - 'no'
           required: true
 
-  - name: Server / Patch - CentOS7
+  - name: SERVER / Patch - CentOS7
     project: Automated Management
     playbook: server_patch.yml
     inventory: Workshop Inventory
@@ -198,7 +198,7 @@ tower_templates:
             - 'no'
           required: true
 
-  - name: Server / Fact Scan - RHEL7
+  - name: SERVER / Fact Scan - RHEL7
     project: Fact Scan
     playbook: scan_facts.yml
     inventory: Workshop Inventory
@@ -208,7 +208,7 @@ tower_templates:
       - RHEL Credential
     limit: rhel7
 
-  - name: Server / Fact Scan - CentOS7
+  - name: SERVER / Fact Scan - CentOS7
     project: Fact Scan
     playbook: scan_facts.yml
     inventory: Workshop Inventory
