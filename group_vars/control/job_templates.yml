@@ -5,7 +5,7 @@ tower_templates:
     playbook: server_register.yml
     inventory: Workshop Inventory
     credentials:
-      - RHEL Credential
+      - Workshop Credential
     limit: rhel7
     extra_vars:
       org_id: "Default_Organization"
@@ -32,7 +32,7 @@ tower_templates:
     playbook: server_register.yml
     inventory: Workshop Inventory
     credentials:
-      - CentOS Credential
+      - Workshop Credential
     limit: centos7
     extra_vars:
       org_id: "Default_Organization"
@@ -152,7 +152,7 @@ tower_templates:
     inventory: Workshop Inventory
     use_fact_cache: true
     credentials:
-      - RHEL Credential
+      - Workshop Credential
     limit: rhel7
     survey_enabled: true
     survey:
@@ -178,7 +178,7 @@ tower_templates:
     inventory: Workshop Inventory
     use_fact_cache: true
     credentials:
-      - CentOS Credential
+      - Workshop Credential
     limit: centos7
     survey_enabled: true
     survey:
@@ -205,7 +205,7 @@ tower_templates:
     ask_limit_on_launch: true
     use_fact_cache: true
     credentials:
-      - RHEL Credential
+      - Workshop Credential
     limit: rhel7
 
   - name: SERVER / Fact Scan - CentOS7
@@ -215,5 +215,5 @@ tower_templates:
     ask_limit_on_launch: true
     use_fact_cache: true
     credentials:
-      - CentOS Credential
+      - Workshop Credential
     limit: centos7
