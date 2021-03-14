@@ -1,6 +1,0 @@
----
-# defaults file for ec2_node_start_stop
-
-ec2_instance_action: "start"
-roles_directory: roles
-display_debug_output: false

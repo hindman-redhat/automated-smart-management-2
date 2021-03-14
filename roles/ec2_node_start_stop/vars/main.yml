@@ -1,9 +1,0 @@
----
-# vars file for ec2_node_start_stop
-
-# tags are checked against existing tags on instances visible via AWS EC2 credentials provided
-
-#instances:
-#  tags:
-#    guid: 'labguid'
-#    Student: 'student#'
