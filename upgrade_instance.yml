@@ -6,7 +6,7 @@
   tasks:
   - name: Ensure instances in "{{ node_group }}" are running in region "{{ ec2_region }}"
     include_role:
-      name: ec2_node_start_stop
+      name: ec2_node_tools
 
 - name: Confirm node startup
   hosts: all:!ansible-1.example.com
