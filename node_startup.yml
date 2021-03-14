@@ -2,4 +2,4 @@
 - hosts: all
   gather_facts: false
   roles:
-  - ec2_node_start_stop
+  - ec2_node_tools

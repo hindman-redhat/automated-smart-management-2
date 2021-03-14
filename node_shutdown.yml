@@ -4,4 +4,4 @@
   vars:
     ec2_instance_action: "stop"
   roles:
-  - ec2_node_start_stop
+  - ec2_node_tools
