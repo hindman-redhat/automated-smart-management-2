@@ -9,6 +9,7 @@ tower_inventory_sources:
     credential: Inventory Credential
     source: satellite6
     update_on_launch: true
+    overwrite: true
     source_vars:
       keyed_groups:
         - prefix: env
