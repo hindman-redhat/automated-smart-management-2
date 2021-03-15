@@ -11,6 +11,11 @@
     connection: local
     register: temp_transfer_01
 
+  - debug: msg="temp dir ==> {{ temp_transfer_01.path }}"
+    run_once: true
+    delegate_to: localhost
+    connection: local
+
   - name: verify operating system
     assert:
       that: "ansible_distribution == 'RedHat'"
