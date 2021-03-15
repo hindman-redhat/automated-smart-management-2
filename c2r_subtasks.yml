@@ -4,5 +4,4 @@
   #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01 }}"/ flat=yes
   fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}"/
 
-- debug: Test out basename filter
-    msg: "basename ==> {{ full_file_path | dirname }}"
+- debug: msg="basename ==> {{ full_file_path | dirname }}"
