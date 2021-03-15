@@ -54,13 +54,15 @@
     when: redhat_repofile_stat.stat.exists
 
   - name: Copy "{{ item }}" from control to centos node
-    copy: src="{{ temp_transfer_01.path }}/{{ item }}" dest="{{ item }}"
+    #copy: src="{{ temp_transfer_01.path }}/{{ item }}" dest="{{ item }}"
+    copy: src="{{ item }}" dest="{{ item }}"
     with_items:
     - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
     - "/etc/yum.repos.d/redhat.repo"
 
   - name: Copy "{{ item.path }}" from control to centos node
-    copy: src="{{ temp_transfer_01.path }}/{{ item.path }}" dest="{{ item.path }}"
+    #copy: src="{{ temp_transfer_01.path }}/{{ item.path }}" dest="{{ item.path }}"
+    copy: src="{{ item.path }}" dest="{{ item.path }}"
     with_items:
     - "{{ entitlement_certs.files }}"
 
@@ -71,4 +73,4 @@
     with_items:
     - "{{ entitlement_certs.files }}"
     register: cert_file
-    changed_when: "'i' not in resolv_file.diff.before.attributes"
+    changed_when: "'i' not in cert_file.diff.before.attributes"
