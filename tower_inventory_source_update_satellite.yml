@@ -14,3 +14,6 @@
       name: "satellite_source"
       inventory: "Workshop Inventory"
       organization: Default
+
+  - name: import inventory
+    shell: 'tower-manage inventory_import --source=/home/{{ student }}/lab_inventory/hosts --inventory-name="Workshop Inventory"'
