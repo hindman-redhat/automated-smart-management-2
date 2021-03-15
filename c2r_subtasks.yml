@@ -5,4 +5,4 @@
   fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01 }}"/
 
 - debug: Test out basename filter
-  var:  full_file_path | dirname 
+  var:  full_file_path | dirname
