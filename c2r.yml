@@ -5,9 +5,13 @@
   - name: Interrogate one RHEL node to get requisite files for convert2rhel requirements
     block:
       - name: Create temporary directory for file transfers
-        tempfile:
+        file:
+          path: /tmp/c2r
           state: directory
-          suffix: .temp
+          mode: 0755
+      #  tempfile:
+      #    state: directory
+      #    suffix: .temp
         delegate_to: localhost
         connection: local
         register: temp_transfer_01
