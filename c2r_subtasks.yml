@@ -1,7 +1,7 @@
 ---
 - name: Fetch "{{ full_file_path }}" from rhel node to control
   run_once: yes
-  #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01 }}"/ flat=yes
-  fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}/{{ full_file_path | dirname }}"/
+  fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}"/ flat=yes
+  #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}/{{ full_file_path | dirname }}"/
 
 - debug: msg="basename ==> {{ full_file_path | dirname }}"
