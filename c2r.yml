@@ -2,33 +2,34 @@
 - hosts: "{{ rhel_nodes }}"
   become: false
   tasks:
-  block:
-    - name: Create temporary directory for file transfers
-      tempfile:
-        state: directory
-        suffix: .temp
-      delegate_to: localhost
-      connection: local
-      register: temp_transfer_01
+  - name: Interrogate one RHEL node to get requisite files for convert2rhel requirements
+    block:
+      - name: Create temporary directory for file transfers
+        tempfile:
+          state: directory
+          suffix: .temp
+        delegate_to: localhost
+        connection: local
+        register: temp_transfer_01
 
-    - debug: msg="temp dir ==> {{ temp_transfer_01.path }}"
-      delegate_to: localhost
-      connection: local
+      - debug: msg="temp dir ==> {{ temp_transfer_01.path }}"
+        delegate_to: localhost
+        connection: local
 
-    - name: verify operating system
-      assert:
-        that: "ansible_distribution == 'RedHat'"
+      - name: verify operating system
+        assert:
+          that: "ansible_distribution == 'RedHat'"
 
-    - find: paths="/etc/pki/entitlement" recurse=yes patterns="*.pem"
-      register: certs_to_copy
+      - find: paths="/etc/pki/entitlement" recurse=yes patterns="*.pem"
+        register: certs_to_copy
 
-    - include: c2r_subtasks.yml full_file_path={{ item }}
-      with_items:
-      - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
-      - "/etc/yum.repos.d/redhat.repo"
-      - "{{ certs_to_copy.files }}"
+      - include: c2r_subtasks.yml full_file_path={{ item }}
+        with_items:
+        - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+        - "/etc/yum.repos.d/redhat.repo"
+        - "{{ certs_to_copy.files }}"
 
-  run_once: yes
+    run_once: yes
 
 - hosts: "{{ centos_nodes }}"
   become: true
