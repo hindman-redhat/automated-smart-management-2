@@ -70,7 +70,7 @@ tower_templates:
         - question_name: Select Content View
           variable: content_view
           type: multiplechoice
-          choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^RHEL.*$') | list}}"
+          choices: "{{ hostvars['satellite.example.com']['foreman_content_views'] | selectattr('name', 'match', '^RHEL.*$') | map(attribute='name') | list}}"
           required: true
 
   - name: SATELLITE / CentOS - Publish Content View
