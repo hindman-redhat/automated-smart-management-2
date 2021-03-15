@@ -41,6 +41,14 @@
     assert:
       that: "ansible_distribution == 'CentOS'"
 
+  - name: stat redhat.repo
+    stat: path=/etc/yum.repos.d/redhat.repo
+    register: redhat_repofile_stat
+
+  - name: Move redhat.repo to centos.repo
+    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/centos.repo
+    when: redhat_repofile_stat.stat.exists
+
   - name: Copy "{{ item }}" from control to centos node
     copy: src="{{ temp_transfer_01.path }}/{{ item }}" dest="{{ item }}"
     with_items:
