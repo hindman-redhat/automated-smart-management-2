@@ -21,11 +21,11 @@
           that: "ansible_distribution == 'RedHat'"
 
       - find: paths="/etc/pki/entitlement" recurse=yes patterns="*.pem"
-        register: certs_to_copy
+        register: entitlement_certs
 
       - include: c2r_subtasks.yml full_file_path={{ item.path }}
         with_items:
-        - "{{ certs_to_copy.files }}"
+        - "{{ entitlement_certs.files }}"
 
       - include: c2r_subtasks.yml full_file_path={{ item }}
         with_items:
@@ -40,3 +40,23 @@
   - name: verify operating system
     assert:
       that: "ansible_distribution == 'CentOS'"
+
+  - name: Copy "{{ item }}" from control to centos node
+    copy: src="{{ temp_transfer_01.path }}/{{ item }}" dest="{{ item }}"
+    with_items:
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+    - "/etc/yum.repos.d/redhat.repo"
+
+  - name: Copy "{{ item.path }}" from control to centos node
+    copy: src="{{ temp_transfer_01.path }}/{{ item.path }}" dest="{{ item.path }}"
+    with_items:
+    - "{{ entitlement_certs.files }}"
+
+  - name: Ensure "{{ item.path }}" is immutable
+    file:
+      path: "{{ item.path }}"
+      attr: +i
+    with_items:
+    - "{{ entitlement_certs.files }}"
+    register: cert_file
+    changed_when: "'i' not in resolv_file.diff.before.attributes"
