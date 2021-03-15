@@ -8,6 +8,7 @@
       suffix: .temp
     run_once: true
     delegate_to: localhost
+    connection: local
     register: temp_transfer_01
 
   - name: verify operating system
