@@ -23,11 +23,14 @@
       - find: paths="/etc/pki/entitlement" recurse=yes patterns="*.pem"
         register: certs_to_copy
 
+      - include: c2r_subtasks.yml full_file_path={{ item.path }}
+        with_items:
+        - "{{ certs_to_copy.files }}"
+
       - include: c2r_subtasks.yml full_file_path={{ item }}
         with_items:
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
-        - "{{ certs_to_copy.files }}"
 
     run_once: yes
 
