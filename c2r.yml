@@ -1,0 +1,29 @@
+---
+- hosts: "{{ rhel_nodes }}"
+  become: yes
+  tasks:
+  - name: Create temporary directory for file transfers
+    tempfile:
+      state: directory
+      suffix: .temp
+    run_once: true
+    delegate_to: localhost
+    register: temp_transfer_01
+
+  - name: verify operating system
+    assert:
+      that: "ansible_os_family == 'RedHat'"
+
+  - include: c2r_subtasks.yml full_file_path={{ item }}
+    run_once: yes
+    with_items:
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+    - "/etc/pki/entitlement/*.pem"
+    - "/etc/yum.repos.d/redhat.repo"
+
+- hosts: "{{ centos_nodes }}"
+  become: yes
+  tasks:
+  - name: verify operating system
+    assert:
+      that: "ansible_os_family == 'CentOS'"
