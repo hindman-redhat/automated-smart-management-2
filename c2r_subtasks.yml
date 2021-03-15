@@ -2,7 +2,7 @@
 - name: Fetch "{{ full_file_path }}" from rhel node to control
   run_once: yes
   #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01 }}"/ flat=yes
-  fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01 }}"/
+  fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}"/
 
 - debug: Test out basename filter
-  var:  full_file_path | dirname
+  var:  full_file_path
