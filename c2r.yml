@@ -13,7 +13,7 @@
 
   - name: verify operating system
     assert:
-      that: "ansible_os_family == 'RedHat'"
+      that: "ansible_distribution == 'RedHat'"
 
   - include: c2r_subtasks.yml full_file_path={{ item }}
     run_once: yes
@@ -27,4 +27,4 @@
   tasks:
   - name: verify operating system
     assert:
-      that: "ansible_os_family == 'CentOS'"
+      that: "ansible_distribution == 'CentOS'"
