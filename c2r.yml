@@ -1,6 +1,6 @@
 ---
 - hosts: "{{ rhel_nodes }}"
-  become: yes
+  become: false
   tasks:
   - name: Create temporary directory for file transfers
     tempfile:
@@ -23,7 +23,7 @@
     - "/etc/yum.repos.d/redhat.repo"
 
 - hosts: "{{ centos_nodes }}"
-  become: yes
+  become: true
   tasks:
   - name: verify operating system
     assert:
