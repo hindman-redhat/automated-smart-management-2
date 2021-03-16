@@ -27,9 +27,9 @@
         - "{{ entitlement_certs_files | map(attribute='path') | list }}"
 
   #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"  
-  #- debug: msg="slurped ==> {{ slurped_file }}"  
-  - debug: msg="slurped ==> {{ item }}" 
-    with_items: '{{ slurped_file["results"] }}'     
+  - debug: msg="slurped ==> {{ slurped_file.results }}"  
+  #- debug: msg="slurped ==> {{ item }}" 
+    #with_items: '{{ slurped_file["results"] }}'     
 
 
   run_once: yes
