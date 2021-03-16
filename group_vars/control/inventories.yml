@@ -8,7 +8,7 @@ tower_inventory_sources:
     inventory: Workshop Inventory
     credential: Inventory Credential
     source: satellite6
-    update_on_launch: true
+    update_on_launch: false
     overwrite: true
     source_vars:
       keyed_groups:
