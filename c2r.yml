@@ -20,9 +20,11 @@
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
 
-  - debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"        
+  #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"  
+  - debug: msg="slurped ==> {{ slurped_file }}"        
 
-    run_once: yes
+
+  run_once: yes
 
 - hosts: "{{ centos_nodes }}"
   become: true
