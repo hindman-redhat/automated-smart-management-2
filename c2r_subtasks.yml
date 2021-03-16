@@ -4,6 +4,6 @@
   slurp: src="{{ full_file_path }}"
   #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}"/ flat=yes
   #fetch: src="{{ full_file_path }}" dest="{{ temp_transfer_01.path }}/{{ full_file_path | dirname }}"/
-  register: slurped_file
+  #register: slurped_file
 
 #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"
