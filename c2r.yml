@@ -29,7 +29,7 @@
         - "/etc/yum.repos.d/redhat.repo"
         - "{{ entitlement_certs_files | map(attribute='path') | list }}"
 
-        - set_fact:
+      - set_fact:
           slurped_files_list: "{{ slurped_files }}"
 
       # This provides dict of slurped files
