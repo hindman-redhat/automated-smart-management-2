@@ -17,6 +17,8 @@
       - set_fact:
           entitlement_certs_files: "{{ entitlement_certs.files }}"
 
+      - debug: msg="entitlement_certs_files ==> {{ entitlement_certs_files }}"
+
       - include: c2r_subtasks.yml full_file_path={{ item }}
         with_items:
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
