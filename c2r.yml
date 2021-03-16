@@ -29,6 +29,9 @@
         - "/etc/yum.repos.d/redhat.repo"
         - "{{ entitlement_certs_files | map(attribute='path') | list }}"
 
+        - set_fact:
+          slurped_files_list: "{{ slurped_files }}"
+
       # This provides dict of slurped files
       #- debug:
       #    msg: "{{ slurped_files.results }}"
@@ -53,28 +56,21 @@
     stat: path=/etc/yum.repos.d/redhat.repo
     register: redhat_repofile_stat
 
-  - name: Move redhat.repo to centos.repo
-    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/centos.repo
+  - name: Move redhat.repo to centos_satellite.repo
+    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/centos_satellite.repo
     when: redhat_repofile_stat.stat.exists
 
-  - name: Copy "{{ item }}" from control to centos node
-    #copy: src="{{ temp_transfer_01.path }}/{{ item }}" dest="{{ item }}"
-    copy: src="{{ item }}" dest="{{ item }}"
-    with_items:
-    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
-    - "/etc/yum.repos.d/redhat.repo"
+  - name: Unslurp via Copy content "{{ item['source'] }}" from control to centos node
+    copy:
+      content: "{{ item['content'] | b64decode }}"
+      dest: "{{ item['source'] }}"
+    with_items: "{{ slurped_files_list['results'] }}"
 
-  - name: Copy "{{ item.path }}" from control to centos node
-    #copy: src="{{ temp_transfer_01.path }}/{{ item.path }}" dest="{{ item.path }}"
-    copy: src="{{ item.path }}" dest="{{ item.path }}"
-    with_items:
-    - "{{ entitlement_certs.files }}"
-
-  - name: Ensure "{{ item.path }}" is immutable
+  - name: Ensure "{{ item }}" is immutable
     file:
-      path: "{{ item.path }}"
+      path: "{{ item }}"
       attr: +i
     with_items:
-    - "{{ entitlement_certs.files }}"
+    - "{{ entitlement_certs_files | map(attribute='path') | list }}"
     register: cert_file
     changed_when: "'i' not in cert_file.diff.before.attributes"
