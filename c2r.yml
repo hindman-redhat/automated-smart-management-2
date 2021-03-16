@@ -20,7 +20,7 @@
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
 
-    - debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"        
+  - debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"        
 
     run_once: yes
 
