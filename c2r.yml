@@ -17,7 +17,8 @@
       - set_fact:
           entitlement_certs_files: "{{ entitlement_certs.files }}"
 
-      - debug: msg="entitlement_certs_files ==> {{ entitlement_certs_files | map(attribute='path') | list }}"
+      - debug:
+          msg: "entitlement_certs_files ==> {{ entitlement_certs_files | map(attribute='path') | list }}"
 
       - include: c2r_subtasks.yml full_file_path={{ item }}
         register: slurped_files
@@ -28,7 +29,7 @@
 
       - debug:
           msg: "{{ item['content'] | b64decode }}"
-         with_items: '{{ slurped_files["results"] }}'
+        with_items: "{{ slurped_files['results'] }}"
   
   #- debug: msg="slurped ==> {{ slurped_file }}"  
 
