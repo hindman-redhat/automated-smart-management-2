@@ -14,12 +14,14 @@
       #- include: c2r_subtasks.yml full_file_path={{ item.path }}
       #  with_items:
       #  - "{{ entitlement_certs.files }}"
+      - set_fact:
+          entitlement_certs_files: "{{ entitlement_certs.files }}"
 
       - include: c2r_subtasks.yml full_file_path={{ item }}
         with_items:
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
-        - "{{ entitlement_certs.files.path }}"
+        - "{{ entitlement_certs_files.path }}"
 
   #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"  
   - debug: msg="slurped ==> {{ slurped_file }}"        
