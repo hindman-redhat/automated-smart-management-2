@@ -35,7 +35,7 @@
 
       - debug:
           msg:
-            - "{{ item['source'] | flatten }}"
+            - "{{ item['source'] | list }}"
           #msg: "{{ item['content'] | b64decode }}"
         with_items: "{{ slurped_files['results'] }}" 
 
