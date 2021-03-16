@@ -4,22 +4,6 @@
   tasks:
   - name: Interrogate one RHEL node to get requisite files for convert2rhel requirements
     block:
-      - name: Create temporary directory for file transfers
-        file:
-          path: /tmp/c2r
-          state: directory
-          mode: 0755
-      #  tempfile:
-      #    state: directory
-      #    suffix: .temp
-        delegate_to: localhost
-        connection: local
-        register: temp_transfer_01
-
-      - debug: msg="temp dir ==> {{ temp_transfer_01.path }}"
-        delegate_to: localhost
-        connection: local
-
       - name: verify operating system
         assert:
           that: "ansible_distribution == 'RedHat'"
@@ -35,6 +19,8 @@
         with_items:
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
+
+    - debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"        
 
     run_once: yes
 
