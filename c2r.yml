@@ -16,6 +16,8 @@
       #  - "{{ entitlement_certs.files }}"
       - set_fact:
           entitlement_certs_files: "{{ entitlement_certs.files }}"
+        delegate_facts: True
+        with_items: "{{ groups['all'] }}"
 
       - debug:
           msg: "entitlement_certs_files ==> {{ entitlement_certs_files | map(attribute='path') | list }}"
@@ -31,6 +33,8 @@
 
       - set_fact:
           slurped_files_list: "{{ slurped_files }}"
+        delegate_facts: True
+        with_items: "{{ groups['all'] }}"
 
       # This provides dict of slurped files
       #- debug:
@@ -41,7 +45,7 @@
             - "Source  ==> {{ item['source'] }}"
             - "Content ==> {{ item['content'] | b64decode }}"
           #msg: "{{ item['content'] | b64decode }}"
-        with_items: "{{ slurped_files['results'] }}" 
+        with_items: "{{ slurped_files['results'] }}"
 
   run_once: yes
 
