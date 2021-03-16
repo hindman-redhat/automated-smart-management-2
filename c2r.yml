@@ -20,13 +20,16 @@
       - debug: msg="entitlement_certs_files ==> {{ entitlement_certs_files | map(attribute='path') | list }}"
 
       - include: c2r_subtasks.yml full_file_path={{ item }}
+        register: slurped_file
         with_items:
         - "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
         - "/etc/yum.repos.d/redhat.repo"
         - "{{ entitlement_certs_files | map(attribute='path') | list }}"
 
   #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"  
-  - debug: msg="slurped ==> {{ slurped_file }}"        
+  #- debug: msg="slurped ==> {{ slurped_file }}"  
+  - debug: msg="slurped ==> {{ slurped_file }}" 
+    #loop: '{{ files["results"] }}'     
 
 
   run_once: yes
