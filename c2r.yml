@@ -29,12 +29,14 @@
         - "/etc/yum.repos.d/redhat.repo"
         - "{{ entitlement_certs_files | map(attribute='path') | list }}"
 
+      # This provides dict of slurped files
+      #- debug:
+      #    msg: "{{ slurped_files.results }}"
+
       - debug:
-          msg: "{{ slurped_files.results }}"
-        #  msg: "{{ item['content'] | b64decode }}"
-        #with_items: "{{ slurped_files['results'] }}"
-  
-  #- debug: msg="slurped ==> {{ slurped_file }}"  
+          msg: "{{ item }}"
+          #msg: "{{ item['content'] | b64decode }}"
+        with_items: "{{ slurped_files['results'] }}" 
 
   run_once: yes
 
