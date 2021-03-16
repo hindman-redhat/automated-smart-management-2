@@ -16,6 +16,7 @@
       #  - "{{ entitlement_certs.files }}"
       - set_fact:
           entitlement_certs_files: "{{ entitlement_certs.files }}"
+        delegate_to: "{{ item }}"
         delegate_facts: True
         with_items: "{{ groups['all'] }}"
 
@@ -33,6 +34,7 @@
 
       - set_fact:
           slurped_files_list: "{{ slurped_files }}"
+        delegate_to: "{{ item }}"
         delegate_facts: True
         with_items: "{{ groups['all'] }}"
 
