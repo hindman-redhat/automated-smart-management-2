@@ -28,8 +28,8 @@
 
   #- debug: msg="slurped ==> {{ slurped_file | ['content'] | b64decode }}"  
   #- debug: msg="slurped ==> {{ slurped_file }}"  
-  - debug: msg="slurped ==> {{ slurped_file }}" 
-    #loop: '{{ files["results"] }}'     
+  - debug: msg="slurped ==> {{ item }}" 
+    with_items: '{{ slurped_file["results"] }}'     
 
 
   run_once: yes
