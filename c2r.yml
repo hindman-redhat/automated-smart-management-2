@@ -58,6 +58,13 @@
     assert:
       that: "ansible_distribution == 'CentOS'"
 
+  - name: "Add {{ ansible_distribution_major_version }}Server to file /etc/yum/vars/releasever if it does not exist on this CentOS {{ ansible_distribution_major_version }} system"
+    lineinfile:
+      path: /etc/yum/vars/releasever
+      line: "{{ ansible_distribution_major_version }}Server"
+      create: yes
+    when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6') or (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+
   - name: stat redhat.repo
     stat: path=/etc/yum.repos.d/redhat.repo
     register: redhat_repofile_stat
