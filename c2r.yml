@@ -53,6 +53,9 @@
 
 - hosts: "{{ centos_nodes }}"
   become: true
+  vars:
+    convert2rhel_timeout: 14400
+    convert2rhel_retry_interval: 15
   tasks:
   - name: verify operating system
     assert:
@@ -100,3 +103,34 @@
     - "{{ entitlement_certs_files | map(attribute='path') | list }}"
     register: cert_file
     changed_when: "'i' not in cert_file.diff.before.attributes"
+
+  # Finish repo file shell game...
+  - name: Move redhat.repo to rhel_satellite.repo
+    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/rhel_satellite.repo
+
+  - name: Move centos_satellite.repo to redhat.repo
+    command: mv /etc/yum.repos.d/centos_satellite.repo /etc/yum.repos.d/redhat.repo.repo
+
+  - name: Launch conversion asynchronously
+    command: >-
+      convert2rhel --disable-submgr
+        --disablerepo "*" 
+        --enablerepo rhel-7-server-rpms
+        --enablerepo rhel-7-server-extras-rpms
+        --enablerepo rhel-7-server-satellite-tools-6.8-rpms
+        --no-rpm-va
+    async: "{{ convert2rhel_timeout }}"
+    poll: 0
+    register: convert2rhel_async
+
+  - name: Check if conversion is finished
+    async_status:
+      jid: "{{ convert2rhel_async.ansible_job_id }}"
+    register: job_result
+    until: job_result.finished
+    retries: "{{ ( convert2rhel_timeout / convert2rhel_retry_interval ) | int }}"
+    delay: "{{ convert2rhel_retry_interval }}"
+
+  - name: Reboot machine with a 15 minutes timeout
+    reboot:
+      reboot_timeout: 900
