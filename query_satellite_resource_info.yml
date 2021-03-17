@@ -1,0 +1,15 @@
+---
+- hosts: "{{ HOSTS | default('satellite.example.com') }}"
+  connection: local
+  vars:
+    organization: "Default Organization"
+    validate_certs: false
+  tasks:
+  - name: Get all existing activation keys for organization ACME
+    theforeman.foreman.resource_info:
+      #resource: activation_keys
+      resource: blah
+      #organization: ACME
+    register: resource_info_result
+  - debug:
+      var: resource_info_result
