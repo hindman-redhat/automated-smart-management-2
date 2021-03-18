@@ -143,9 +143,16 @@
     retries: "{{ ( convert2rhel_timeout / convert2rhel_retry_interval ) | int }}"
     delay: "{{ convert2rhel_retry_interval }}"
 
-  - name: Reboot machine with a 15 minutes timeout
+  - name: Reboot server
     reboot:
-      reboot_timeout: 900
+    register: reboot_result
+
+  - name: Wait for connection...
+    wait_for_connection:
+      connect_timeout: 20
+      sleep: 5
+      delay: 5
+      timeout: 300
 
   # Final chapter in the repo file shell game...
   - name: Remove temporary redhat.repo
