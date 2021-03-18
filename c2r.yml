@@ -115,7 +115,7 @@
     #register: cert_file
     #changed_when: "'i' not in cert_file.diff.before.attributes"
 
-  # Finish repo file shell game...
+  # Continue repo file shell game...
   - name: Move redhat.repo to rhel_satellite.repo
     command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/rhel_satellite.repo
 
@@ -146,3 +146,12 @@
   - name: Reboot machine with a 15 minutes timeout
     reboot:
       reboot_timeout: 900
+
+  # Final chapter in the repo file shell game...
+  - name: Remove temporary redhat.repo
+    file:
+      path: /etc/yum.repos.d/redhat.repo
+      state: absent
+
+  - name: Move rhel_satellite.repo to redhat.repo
+    command: mv /etc/yum.repos.d/rhel_satellite.repo /etc/yum.repos.d/redhat.repo
