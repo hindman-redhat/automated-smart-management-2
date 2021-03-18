@@ -130,6 +130,7 @@
         --enablerepo rhel-7-server-extras-rpms
         --enablerepo rhel-7-server-satellite-tools-6.8-rpms
         --no-rpm-va
+        -y
     async: "{{ convert2rhel_timeout }}"
     poll: 0
     register: convert2rhel_async
