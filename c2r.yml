@@ -120,7 +120,7 @@
     command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/rhel_satellite.repo
 
   - name: Move centos_satellite.repo to redhat.repo
-    command: mv /etc/yum.repos.d/centos_satellite.repo /etc/yum.repos.d/redhat.repo.repo
+    command: mv /etc/yum.repos.d/centos_satellite.repo /etc/yum.repos.d/redhat.repo
 
   - name: Launch conversion asynchronously
     command: >-
