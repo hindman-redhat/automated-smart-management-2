@@ -112,8 +112,8 @@
       attr: +i
     with_items:
     - "{{ entitlement_certs_files | map(attribute='path') | list }}"
-    register: cert_file
-    changed_when: "'i' not in cert_file.diff.before.attributes"
+    #register: cert_file
+    #changed_when: "'i' not in cert_file.diff.before.attributes"
 
   # Finish repo file shell game...
   - name: Move redhat.repo to rhel_satellite.repo
