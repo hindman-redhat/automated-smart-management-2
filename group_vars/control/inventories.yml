@@ -25,9 +25,7 @@ tower_inventory_sources:
   - name: EC2 Dynamic Source - Development
     inventory: AWS Inventory - Development
     source: ec2
-    source_vars: |
-      ---
-      # Populate inventory with instances in these regions
+    source_vars:
       regions:
         - us-east-1
       filters:
@@ -42,7 +40,6 @@ tower_inventory_sources:
         - prefix: AnsibleGroup
           key: tags['AnsibleGroup']
       compose:
-        # set the ansible_host variable to connect with the private IP address without changing the hostname
         ansible_host: private_ip_address
     overwrite: true
     update_on_launch: true
