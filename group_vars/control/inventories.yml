@@ -26,7 +26,6 @@ tower_inventory_sources:
     inventory: AWS Inventory - Development
     source: ec2
     source_vars: >
-      ---
       regions:
         - us-east-1
       filters:
