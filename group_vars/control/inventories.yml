@@ -3,6 +3,9 @@ tower_inventories:
   - name: Workshop Inventory
     organization: Default
 
+  - name: AWS Inventory - Development
+    organization: Default
+
 tower_inventory_sources:
   - name: satellite_source
     inventory: Workshop Inventory
@@ -18,3 +21,29 @@ tower_inventory_sources:
           key: foreman_content_facet_attributes.content_view_name
         - prefix: os
           key: foreman_operatingsystem_name
+
+  - name: EC2 Dynamic Source - Development
+    inventory: AWS Inventory - Development
+    source: ec2
+    source_vars: |
+      ---
+      # Populate inventory with instances in these regions
+      regions:
+        - us-east-1
+      filters:
+        tag:Environment: Dev
+        instance-state-name : running
+      hostnames:
+        - tag:Name
+        - private-dns-name
+      keyed_groups:
+        - prefix: Env
+          key: tags['Environment']
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
+        ansible_host: private_ip_address
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
