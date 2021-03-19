@@ -36,9 +36,9 @@ tower_inventory_sources:
         - private-dns-name
       keyed_groups:
         - prefix: Env
-          key: tags['Environment']
+          key: tags[''Environment'']
         - prefix: AnsibleGroup
-          key: tags['AnsibleGroup']
+          key: tags[''AnsibleGroup'']
       compose:
         ansible_host: private_ip_address
     overwrite: true
