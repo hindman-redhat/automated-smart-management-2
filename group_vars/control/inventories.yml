@@ -25,23 +25,25 @@ tower_inventory_sources:
   - name: EC2 Dynamic Source - Development
     inventory: AWS Inventory - Development
     source: ec2
-    source_vars: "---\n# Populate inventory with instances in these regions\nregions:\n  - us-east-1\nfilters:\n  tag:Environment: Dev\n  instance-state-name : running\nhostnames:\n  - tag:Name\n  - private-dns-name\nkeyed_groups:\n  - prefix: Env\n    key: tags['Environment']\n  - prefix: AnsibleGroup\n    key: tags['AnsibleGroup']\ncompose:\n  # set the ansible_host variable to connect with the private IP address without changing the hostname\n  ansible_host: private_ip_address"
-#    source_vars:
-#      regions:
-#        - us-east-1
-#      filters: >-
-#        tag:Environment: Dev
-#        instance-state-name : running
-#      hostnames: >-
-#        - tag:Name
-#       - private-dns-name
-#     keyed_groups: >-
-#       - prefix: Env
-#         key: tags['Environment']
-#       - prefix: AnsibleGroup
-#         key: tags['AnsibleGroup']
-#     compose:
-#       ansible_host: private_ip_address
+    source_vars: |-
+      ---
+      # Populate inventory with instances in these regions
+      regions:
+        - us-east-1
+      filters:
+        tag:Environment: Dev
+        instance-state-name : running
+      hostnames:
+        - tag:Name
+        - private-dns-name
+      keyed_groups:
+        - prefix: Env
+          key: tags['Environment']
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
+        ansible_host: private_ip_address
     overwrite: true
     update_on_launch: true
     update_cache_timeout: 0
