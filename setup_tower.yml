@@ -12,6 +12,9 @@
     tower_validate_certs: false
 
   tasks:
+    - name: import json via shell cat
+      shell: cat files/dynamic_development_source_vars.json
+      register: dynamic_development_source_vars    
     - name: deploy tower_infra workloads
       include_role:
         name: "{{ tower_infra_vars }}"
