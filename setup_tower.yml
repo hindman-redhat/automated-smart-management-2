@@ -12,12 +12,13 @@
     tower_validate_certs: false
 
   tasks:
-    - name: import json via shell cat
-      shell: cat files/dynamic_development_source_vars.json
-      register: dynamic_development_source_vars_json_cat
-    - name: save the Json data to a Variable as a Fact
-      set_fact:
-        dynamic_development_source_vars: "{{ dynamic_development_source_vars_json_cat.stdout | from_json | to_yaml }}" 
+    - name: Slurp dynamic_development_source_vars.yaml
+      slurp: src=files/dynamic_development_source_vars.yaml
+      register: dynamic_development_source_vars_slurped
+
+    - set_fact:
+        dynamic_development_source_vars: "{{ dynamic_development_source_vars_slurped['content'] | b64decode }}"
+
     - debug:
         var: "{{ dynamic_development_source_vars }}"   
     - name: deploy tower_infra workloads
