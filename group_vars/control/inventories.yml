@@ -25,22 +25,23 @@ tower_inventory_sources:
   - name: EC2 Dynamic Source - Development
     inventory: AWS Inventory - Development
     source: ec2
-    source_vars: "{{ hostvars['ansible-1.example.com']['dynamic_development_source_vars'] }}"
-#      regions:
-#        - us-east-1
-#      filters:
-#        tag:Environment: Dev
-#        instance-state-name : running
-#      hostnames:
-#        - tag:Name
-#        - private-dns-name
-#      keyed_groups:
-#        - prefix: Env
-#          key: tags['Environment']
-#       - prefix: AnsibleGroup
-#          key: tags['AnsibleGroup']
-#      compose:
-#        ansible_host: private_ip_address
+#    source_vars: "{{ hostvars['ansible-1.example.com']['dynamic_development_source_vars'] }}"
+    source_vars:
+      regions: |
+        - us-east-1
+      filters: |
+        tag:Environment: Dev
+        instance-state-name : running
+      hostnames: |
+        - tag:Name
+        - private-dns-name
+      keyed_groups: |
+        - prefix: Env
+          key: tags['Environment']
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        ansible_host: private_ip_address
     overwrite: true
     update_on_launch: true
     update_cache_timeout: 0
