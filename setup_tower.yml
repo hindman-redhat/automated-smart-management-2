@@ -20,7 +20,7 @@
         dynamic_development_source_vars: "{{ dynamic_development_source_vars_slurped['content'] | b64decode }}"
 
     - debug:
-        var: "{{ dynamic_development_source_vars }}"   
+        msg: "{{ dynamic_development_source_vars }}"   
     - name: deploy tower_infra workloads
       include_role:
         name: "{{ tower_infra_vars }}"
