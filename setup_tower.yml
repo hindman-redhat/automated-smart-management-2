@@ -19,7 +19,7 @@
       set_fact:
         dynamic_development_source_vars: "{{ dynamic_development_source_vars_json_cat.stdout | from_json }}" 
     - debug:
-        vars: "{{ dynamic_development_source_vars }}"   
+        var: "{{ dynamic_development_source_vars }}"   
     - name: deploy tower_infra workloads
       include_role:
         name: "{{ tower_infra_vars }}"
