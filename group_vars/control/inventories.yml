@@ -25,7 +25,7 @@ tower_inventory_sources:
   - name: EC2 Dynamic Source - Development
     inventory: AWS Inventory - Development
     source: ec2
-    source_vars: "{{ development_inventory_source_vars.stdout | from_json }}"
+    source_vars: "{{ development_inventory_source_vars }}"
 #      regions:
 #        - us-east-1
 #      filters:

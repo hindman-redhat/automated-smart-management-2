@@ -14,7 +14,10 @@
   tasks:
     - name: import json via shell cat
       shell: cat files/dynamic_development_source_vars.json
-      register: dynamic_development_source_vars    
+      register: dynamic_development_source_vars_json_cat
+    - name: save the Json data to a Variable as a Fact
+      set_fact:
+        dynamic_development_source_vars: "{{ dynamic_development_source_vars_json_cat.stdout | from_json }}"    
     - name: deploy tower_infra workloads
       include_role:
         name: "{{ tower_infra_vars }}"
