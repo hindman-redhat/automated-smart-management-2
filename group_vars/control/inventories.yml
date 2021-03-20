@@ -28,17 +28,17 @@ tower_inventory_sources:
     source_vars:
       regions:
         - us-east-1
-      filters:
-        tag\:Environment: Dev
+      filters: >
+        tag:Environment: Dev
         instance-state-name : running
-      hostnames:
-        - tag\:Name
+      hostnames: >
+        - tag:Name
         - private-dns-name
-      keyed_groups:
+      keyed_groups: >
         - prefix: Env
-          key: tags[\'Environment\']
+          key: tags['Environment']
         - prefix: AnsibleGroup
-          key: tags[\'AnsibleGroup\']
+          key: tags['AnsibleGroup']
       compose:
         ansible_host: private_ip_address
     overwrite: true
