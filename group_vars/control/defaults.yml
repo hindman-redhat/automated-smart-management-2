@@ -1,6 +1,6 @@
 ---
 development_inventory_source_vars: >-
-{
+"{
    "regions": [
       "us-east-1"
    ],
@@ -25,4 +25,4 @@ development_inventory_source_vars: >-
    "compose": {
       "ansible_host": "private_ip_address"
    }
-}
+}"
