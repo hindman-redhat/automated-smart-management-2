@@ -28,13 +28,13 @@ tower_inventory_sources:
     source_vars:
       regions:
         - us-east-1
-      filters: >
+      filters: >-
         tag:Environment: Dev
         instance-state-name : running
-      hostnames: >
+      hostnames: >-
         - tag:Name
         - private-dns-name
-      keyed_groups: >
+      keyed_groups: >-
         - prefix: Env
           key: tags['Environment']
         - prefix: AnsibleGroup
