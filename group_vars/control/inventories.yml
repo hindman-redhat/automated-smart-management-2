@@ -6,6 +6,9 @@ tower_inventories:
   - name: AWS Inventory - Development
     organization: Default
 
+  - name: AWS Inventory - Production
+    organization: Default
+
 tower_inventory_sources:
   - name: satellite_source
     inventory: Workshop Inventory
@@ -25,22 +28,49 @@ tower_inventory_sources:
   - name: EC2 Dynamic Source - Development
     inventory: AWS Inventory - Development
     source: ec2
-#    source_vars: "{{ hostvars['ansible-1.example.com']['dynamic_development_source_vars'] }}"
     source_vars:
       regions: |
         - us-east-1
       filters: |
+        tag:Distro: CentOS7
         tag:Environment: Dev
-        instance-state-name : running
+        tag:Student: student1
       hostnames: |
-        - tag:Name
+        - tag:NodeName
         - private-dns-name
       keyed_groups: |
-        - prefix: Env
-          key: tags['Environment']
+        - prefix: env
+          key: tags['Distro'] ~ '_Dev'
         - prefix: AnsibleGroup
           key: tags['AnsibleGroup']
       compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
+        ansible_host: private_ip_address
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+
+  - name: EC2 Dynamic Source - Production
+    inventory: AWS Inventory - Production
+    source: ec2
+    source_vars:
+      regions: |
+        - us-east-1
+      filters: |
+        tag:Distro: CentOS7
+        tag:Environment: Prod
+        tag:Student: student1
+      hostnames: |
+        - tag:NodeName
+        - tag:Name
+        - private-dns-name
+      keyed_groups: |
+        - prefix: env
+          key: tags['Distro'] ~ '_Prod'
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
         ansible_host: private_ip_address
     overwrite: true
     update_on_launch: true
