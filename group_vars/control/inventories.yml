@@ -54,17 +54,17 @@ tower_inventory_sources:
     inventory: AWS Inventory - Production
     source: ec2
     source_vars:
-      regions: |
+      regions:
         - us-east-1
-      filters: |
+      filters:
         tag:Distro: CentOS7
         tag:Environment: Prod
         tag:Student: student1
-      hostnames: |
+      hostnames:
         - tag:NodeName
         - tag:Name
         - private-dns-name
-      keyed_groups: |
+      keyed_groups:
         - prefix: env
           key: tags['Distro'] ~ '_Prod'
         - prefix: AnsibleGroup
