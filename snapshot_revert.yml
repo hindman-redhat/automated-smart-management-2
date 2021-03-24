@@ -1,5 +1,5 @@
 ---
-- name: 08 test playbook
+- name: Revert instance via snapshot
   hosts: ansible-1.example.com
   connection: local
   gather_facts: no
