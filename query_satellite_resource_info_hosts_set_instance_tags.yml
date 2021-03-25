@@ -11,6 +11,7 @@
       resource: hosts
       # organization: ACME
     register: resource_info_hosts_result
+
   - debug:
       # | to_json | from_json ...is workaround found here...
       # https://stackoverflow.com/questions/44546154/jmespathtypeerror-when-using-json-query-filter-in-ansible-with-starts-with
@@ -19,4 +20,25 @@
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
       # this also works...
       # ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
-      
+
+  - name: "Get instance details"
+    import_role:
+      name: ec2_node_tools
+      tasks_from: get_instance_details
+    vars:
+      instances:
+        tags:
+          short_name: 'node*'
+          guid: 'test01'
+          Student: 'student1'
+
+  - debug:
+      msg:
+        - "Instance ID ==> {{ instances_details | json_query(ansible_instance_id_query) }}"
+        - "Node ==> {{ item }}"
+        - "LE   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_query) }}"
+    vars:
+      ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
+      ansible_specific_host_name_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.lifecycle_environment_name | [0]"
+      ansible_instance_id_query: "instances[?contains(['{{ item.split('.')[0] | lower }}'], tags.short_name)].instance_id | [0]"
+    with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
