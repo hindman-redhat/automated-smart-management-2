@@ -7,9 +7,10 @@
   tasks:
   - name: Get all existing resource_infor for org "Default Organization"
     theforeman.foreman.resource_info:
-      #resource: activation_keys
+      # resource: activation_keys
+      # or if you want to see all available resource options, use a bogus value, like "blah"
       resource: blah
-      #organization: ACME
+      # organization: ACME
     register: resource_info_result
   - debug:
       var: resource_info_result
