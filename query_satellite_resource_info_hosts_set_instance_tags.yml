@@ -25,12 +25,12 @@
     import_role:
       name: ec2_node_tools
       tasks_from: get_instance_details
-    vars:
-      instances:
-        tags:
-          short_name: 'node*'
-          guid: 'test01'
-          Student: 'student1'
+    #vars:
+    #  instances:
+    #    tags:
+    #      short_name: 'node*'
+    #      guid: 'test01'
+    #      Student: 'student1'
 
   - debug:
       msg:
