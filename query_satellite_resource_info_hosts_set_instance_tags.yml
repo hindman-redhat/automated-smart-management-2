@@ -12,8 +12,11 @@
       # organization: ACME
     register: resource_info_hosts_result
   - debug:
+      # | to_json | from_json ...is workaround found here...
+      # https://stackoverflow.com/questions/44546154/jmespathtypeerror-when-using-json-query-filter-in-ansible-with-starts-with
       msg: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) }}"
     vars:
-      # ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
+      # this also works...
+      # ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
       
