@@ -12,6 +12,7 @@
       #organization: ACME
     register: resource_info_hosts_result
   - debug:
-      vars:
-        ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
       msg: "{{ resource_info_hosts_result | json_query(ansible_host_name_query) | list }}"
+    vars:
+      ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
+      
