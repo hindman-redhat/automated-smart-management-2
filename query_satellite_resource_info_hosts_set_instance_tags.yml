@@ -7,12 +7,13 @@
   tasks:
   - name: Get all existing hosts resource_info for org "Default Organization"
     theforeman.foreman.resource_info:
-      #resource: activation_keys
+      # resource: activation_keys
       resource: hosts
-      #organization: ACME
+      # organization: ACME
     register: resource_info_hosts_result
   - debug:
-      msg: "{{ resource_info_hosts_result | json_query(ansible_host_name_query) | list }}"
+      msg: "{{ resource_info_hosts_result | json_query(ansible_host_name_query) }}"
     vars:
-      ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
+      # ansible_host_name_query: "resources[?starts_with(name, 'node') == `true`].name"
+      ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
       
