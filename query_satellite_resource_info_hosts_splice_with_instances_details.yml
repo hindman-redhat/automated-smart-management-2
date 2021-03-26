@@ -40,7 +40,7 @@
         - "LE   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
         - "CV   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }}"
         - "OS   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
-        - "Env  ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query).split('_')[1] }}"
+        - "Env  ==> {{ ansible_env_var.split('_')[1] }}"
         - "Distro > {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
     vars:
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
@@ -48,5 +48,7 @@
       ansible_specific_host_name_cv_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.content_view_name | [0]"
       ansible_specific_host_name_os_query: "resources[?contains(['{{ item }}'], name)].operatingsystem_name | [0]"
       ansible_instance_id_query: "instances[?contains(['{{ item.split('.')[0] | lower }}'], tags.short_name)].instance_id | [0]"
+      # set var from above json_query var
+      ansible_env_var: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query)"
     with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
     when: instances_details is not none
