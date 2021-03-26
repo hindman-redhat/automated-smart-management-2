@@ -33,7 +33,7 @@
   #       guid: 'test01'
   #       Student: 'student1'
 
-  - name:
+  - name: "Set facts to split"
     set_fact:
       ansible_lifecycle_env: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
     vars:
