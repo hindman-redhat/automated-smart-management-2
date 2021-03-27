@@ -29,18 +29,19 @@ tower_inventory_sources:
     inventory: AWS Inventory - Development
     source: ec2
     source_vars:
-      regions: |
+      regions:
         - us-east-1
-      filters: |
-        tag:Distro: CentOS7
+      filters:
+        tag:ContentView: CentOS7
         tag:Environment: Dev
         tag:Student: student1
-      hostnames: |
+      hostnames:
         - tag:NodeName
+        - tag:Name
         - private-dns-name
-      keyed_groups: |
+      keyed_groups:
         - prefix: env
-          key: tags['Distro'] ~ '_Dev'
+          key: tags['ContentView'] ~ '_' ~ tags['Environment']
         - prefix: AnsibleGroup
           key: tags['AnsibleGroup']
       compose:
@@ -57,7 +58,7 @@ tower_inventory_sources:
       regions:
         - us-east-1
       filters:
-        tag:Distro: CentOS7
+        tag:ContentView: CentOS7
         tag:Environment: Prod
         tag:Student: student1
       hostnames:
@@ -66,7 +67,7 @@ tower_inventory_sources:
         - private-dns-name
       keyed_groups:
         - prefix: env
-          key: tags['Distro'] ~ '_Prod'
+          key: tags['ContentView'] ~ '_' ~ tags['Environment']
         - prefix: AnsibleGroup
           key: tags['AnsibleGroup']
       compose:
