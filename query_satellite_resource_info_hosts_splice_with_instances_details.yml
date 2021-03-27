@@ -33,29 +33,31 @@
   #       guid: 'test01'
   #       Student: 'student1'
 
-  - name: "Set facts to split"
+  - name: "Set facts for host LE, CV, OS on Satellite"
     set_fact:
-      ansible_lifecycle_env: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
-    vars:
-      ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
-      ansible_specific_host_name_le_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.lifecycle_environment_name | [0]"
-    with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
-    when: instances_details is not none
-
-  - debug:
-      msg:
-        - "Instance ID ==> {{ instances_details | json_query(ansible_instance_id_query) }}"
-        - "Node ==> {{ item }}"
-        - "LE   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
-        - "CV   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }}"
-        - "OS   ==> {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
-        - "Env  ==> {{ ansible_lifecycle_env.split('_')[1] }}"
-        - "Distro > {{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
+      host_satellite_lifecycle_env: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
+      host_satellite_content_view: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }}"
+      host_satellite_os: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
+      host_ec2_instance_id: "{{ instances_details | json_query(ansible_instance_id_query) }}"
     vars:
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
       ansible_specific_host_name_le_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.lifecycle_environment_name | [0]"
       ansible_specific_host_name_cv_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.content_view_name | [0]"
       ansible_specific_host_name_os_query: "resources[?contains(['{{ item }}'], name)].operatingsystem_name | [0]"
       ansible_instance_id_query: "instances[?contains(['{{ item.split('.')[0] | lower }}'], tags.short_name)].instance_id | [0]"
+    with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
+    when: instances_details is not none
+
+  - debug:
+      msg:
+        - "Instance ID ==> {{ host_ec2_instance_id }}"
+        - "Node ==> {{ item }}"
+        - "LE   ==> {{ host_satellite_lifecycle_env }}"
+        - "CV   ==> {{ host_satellite_content_view }}"
+        - "OS   ==> {{ host_satellite_os }}"
+        - "Env  ==> {{ host_satellite_lifecycle_env.split('_')[1] }}"
+        - "Distro > {{ host_satellite_os.split('_')[0] }}"
+    vars:
+      ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
     with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
     when: instances_details is not none
