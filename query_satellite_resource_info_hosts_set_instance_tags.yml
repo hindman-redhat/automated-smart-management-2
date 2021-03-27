@@ -21,12 +21,42 @@
       name: ec2_node_tools
       tasks_from: get_instance_details
 
+  - set_fact:
+      host_satellite_lifecycle_env: {}
+      host_satellite_content_view: {}
+      host_satellite_os: {}
+      host_ec2_instance_id: {}
+
   - name: "Set facts based on individual host's LE, CV, OS from Satellite and ec2 instance_id"
     set_fact:
-      host_satellite_lifecycle_env: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
-      host_satellite_content_view: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }}"
-      host_satellite_os: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
-      host_ec2_instance_id: "{{ instances_details | json_query(ansible_instance_id_query) }}"
+      host_satellite_lifecycle_env: >
+        {{
+          host_satellite_lifecycle_env |
+          combine(
+            { item : resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }
+                 )
+        }}
+      host_satellite_content_view: >
+        {{
+          host_satellite_content_view |
+          combine(
+            { item : resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }
+                 )
+        }}
+      host_satellite_os: >
+        {{
+          host_satellite_os |
+          combine(
+            { item : resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }
+                 )
+        }}
+      host_ec2_instance_id: >
+        {{
+          host_ec2_instance_id |
+          combine(
+            { item : instances_details | json_query(ansible_instance_id_query) }
+                 )
+        }}
     vars:
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
       ansible_specific_host_name_le_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.lifecycle_environment_name | [0]"
@@ -41,11 +71,11 @@
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
     ec2_tag:
       region: "{{ ec2_region }}"
-      resource: "{{ host_ec2_instance_id }}"
+      resource: "{{ host_ec2_instance_id[item] }}"
       state: present
       tags:
-        Environment: "{{ host_satellite_lifecycle_env.split('_')[1] }}"
-        ContentView: "{{ host_satellite_content_view }}"
-        foreman_operatingsystem_name: "{{ host_satellite_os }}"
+        Environment: "{{ host_satellite_lifecycle_env[item].split('_')[1] }}"
+        ContentView: "{{ host_satellite_content_view[item] }}"
+        foreman_operatingsystem_name: "{{ host_satellite_os[item] }}"
     with_items: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_host_name_query) | list }}"
     when: instances_details is not none
