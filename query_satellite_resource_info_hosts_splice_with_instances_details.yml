@@ -38,7 +38,7 @@
       host_satellite_lifecycle_env: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_le_query) }}"
       host_satellite_content_view: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_cv_query) }}"
       host_satellite_os: "{{ resource_info_hosts_result | to_json | from_json | json_query(ansible_specific_host_name_os_query) | replace('.','_') | replace(' ','_') }}"
-      host_ec2_instance_id: "{{ instances_details | json_query(ansible_instance_id_query) }}"
+      host_ec2_instance_id: "{{ host_ec2_instance_id | default({}) | combine( { item : instances_details | json_query(ansible_instance_id_query) } ) }}"
     vars:
       ansible_host_name_query: "resources[?starts_with(name, 'node')].name"
       ansible_specific_host_name_le_query: "resources[?contains(['{{ item }}'], name)].content_facet_attributes.lifecycle_environment_name | [0]"
@@ -50,7 +50,7 @@
 
   - debug:
       msg:
-        - "Instance ID ==> {{ host_ec2_instance_id }}"
+        - "Instance ID ==> {{ host_ec2_instance_id[item] }}"
         - "Node ==> {{ item }}"
         - "LE   ==> {{ host_satellite_lifecycle_env }}"
         - "CV   ==> {{ host_satellite_content_view }}"
