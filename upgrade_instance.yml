@@ -1,6 +1,7 @@
 ---
 - name: Dynamically add ansible-1 to inventory
   hosts: all[0]
+  gather_facts: no
   tasks:
   - name: Dynamically add ansible-1.example.com to inventory
     add_host:
