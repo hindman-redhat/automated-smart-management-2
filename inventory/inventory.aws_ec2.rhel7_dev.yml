@@ -12,11 +12,6 @@ hostnames:
 compose:
   ansible_host: private_ip_address
 keyed_groups:
-  - prefix: cloud
-    key: placement
-  - prefix: tag
-    key: tags | lower
-keyed_groups:
   - prefix: cv
     key: tags['ContentView']
   - prefix: env
