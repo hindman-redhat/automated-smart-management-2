@@ -1,0 +1,16 @@
+---
+- hosts: "{{ HOSTS | default('control[0]') }}"
+#- hosts: "{{ HOSTS | default('ansible-1.example.com') }}"
+  connection: local
+  collections:
+    - awx.awx
+  vars:
+    tower_hostname: "{{ hostvars[inventory_hostname].ansible_host }}"
+    tower_validate_certs: false
+
+  tasks:
+  - name: Update the "EC2 Dynamic Source - CentOS7 Development" source inventory
+    tower_inventory_source_update:
+      name: "EC2 Dynamic Source - CentOS7 Development"
+      inventory: "AWS Inventory - CentOS7 Development"
+      organization: Default
