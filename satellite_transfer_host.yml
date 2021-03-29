@@ -2,11 +2,11 @@
 - hosts: all
   gather_facts: no
   tasks:
-  - name: Dynamically add ansible-1.example.com to inventory
+  - name: Dynamically add satellite.example.com to inventory
     add_host:
-      name: ansible-1.example.com
+      name: satellite.example.com
 
-- hosts: ansible-1.example.com
+- hosts: satellite.example.com
   connection: local
   gather_facts: no
   vars:
@@ -15,7 +15,7 @@
   tasks:
   - set_fact:
       node_group: "env_{{ centos_lifecycle_environment }}"
-  - name: Transfer hosts in Satellite LE "{{ node_group }}" to LE "{{ rhel_lifecycle_environment }}"
+  - name: Transfer hosts in Satellite LE "{{ centos_lifecycle_environment }}" to LE "{{ rhel_lifecycle_environment }}"
     theforeman.foreman.host:
       name: "{{ item }}"
       lifecycle_environment: "{{ rhel_lifecycle_environment }}"
