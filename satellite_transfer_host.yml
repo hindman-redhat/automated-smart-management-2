@@ -20,6 +20,7 @@
       name: "{{ item }}"
       lifecycle_environment: "{{ rhel_lifecycle_environment }}"
       content_view: "{{ rhel_lifecycle_environment.split('_')[0] }}"
+      organization: "{{ organization }}"
     with_items: "{{ groups[node_group] }}"
     register: transfer_hosts_result
   - debug:
