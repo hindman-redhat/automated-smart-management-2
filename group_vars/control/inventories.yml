@@ -5,6 +5,14 @@ tower_inventories:
 
   - name: AWS Inventory - Development
     organization: Default
+    variables:
+      ansible_user: centos
+      instances:
+        tags:
+          ContentView: CentOS7
+          Environment: Dev
+          guid: test01
+          Student: student1
 
   - name: AWS Inventory - Production
     organization: Default
