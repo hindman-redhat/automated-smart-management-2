@@ -296,11 +296,13 @@ tower_templates:
     project: Automated Management
     playbook: upgrade_instance.yml
     inventory: CentOS7 Development
+    credentials:
+      - Workshop Credential
     extra_vars:
       ec2_region: us-east-1
 
   - name: CONVERT2RHEL / 03 - convert2rhel
-    description: Upgrade OS to latest available packages
+    description: Convert OS to RHEL OS via targetted LE
     project: Automated Management
     playbook: c2r.yml
     inventory: ALL Development
