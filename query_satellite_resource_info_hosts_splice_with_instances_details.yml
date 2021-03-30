@@ -30,7 +30,7 @@
   #   instances:
   #     tags:
   #       short_name: 'node*'
-  #       guid: 'test01'
+  #       guid: 'smrtmgmt01'
   #       Student: 'student1'
 
   # this is just to avoid a call to |default on each iteration later

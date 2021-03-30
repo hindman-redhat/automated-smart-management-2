@@ -259,7 +259,7 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
           short_name: node*
 
@@ -273,7 +273,7 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
           short_name: node*
 
@@ -287,7 +287,7 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
           username: centos
 
@@ -317,7 +317,7 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
           username: centos
 
@@ -331,7 +331,7 @@ tower_templates:
       ec2_region: us-east-1
       snapshots:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
 
   - name: EC2 / Set instance tags based on Satellite(Foreman) facts
@@ -345,6 +345,6 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
-          guid: test01
+          guid: smrtmgmt01
           Student: student1
           short_name: node*

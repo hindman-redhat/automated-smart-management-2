@@ -6,7 +6,7 @@ filters:
   tag:ContentView: CentOS7
   tag:Environment: Dev
   tag:Student: student1
-  tag:guid: test01
+  tag:guid: smrtmgmt01
 hostnames:
   - tag:NodeName
 compose:
