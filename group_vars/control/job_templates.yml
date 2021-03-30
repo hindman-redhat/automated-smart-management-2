@@ -146,6 +146,37 @@ tower_templates:
           choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
           required: true  
 
+  - name: SATELLITE / Delete host(s) in "node_group"
+    project: Automated Management
+    playbook: satellite_delete_host.yml
+    inventory: Workshop Inventory
+    credentials:
+      - Satellite Credential
+    extra_vars:
+      node_group: env_CentOS7_Dev
+
+  - name: SATELLITE / Transfer converted host(s) to another LE
+    project: Automated Management
+    playbook: satellite_transfer_host.yml
+    inventory: ALL Development
+    credentials:
+      - Satellite Credential
+    survey_enabled: true
+    survey:
+      name: ''
+      description: ''
+      spec:
+        - question_name: Select CentOS Lifecycle Environment to transfer nodes from
+          variable: centos_lifecycle_environment
+          type: multiplechoice
+          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^CentOS.*$') | map(attribute='name') | list}}"
+          required: true
+        - question_name: Select target RHEL Lifecycle Environment
+          variable: rhel_lifecycle_environment
+          type: multiplechoice
+          choices: "{{ hostvars['satellite.example.com']['lifecycle_environments'] | selectattr('name', 'match', '^RHEL.*$') | map(attribute='name') | list}}"
+          required: true
+
   - name: SERVER / RHEL7 - Patch
     project: Automated Management
     playbook: server_patch.yml
@@ -217,3 +248,103 @@ tower_templates:
     credentials:
       - Workshop Credential
     limit: centos7
+
+  - name: SERVER / Start node via ec2_node_tools
+    description: Start node - selection via EC2 instance tags
+    project: Automated Management
+    playbook: node_startup.yml
+    inventory: Workshop Inventory
+    limit: control
+    extra_vars:
+      ec2_region: us-east-1
+      instances:
+        tags:
+          guid: test01
+          Student: student1
+          short_name: node*
+
+  - name: SERVER / Stop node via ec2_node_tools
+    description: Stop node - selection via EC2 instance tags
+    project: Automated Management
+    playbook: node_shutdown.yml
+    inventory: Workshop Inventory
+    limit: control
+    extra_vars:
+      ec2_region: us-east-1
+      instances:
+        tags:
+          guid: test01
+          Student: student1
+          short_name: node*
+
+  - name: CONVERT2RHEL / 01 - Take node snapshot
+    description: Take node snapshot - selection via EC2 instance tags
+    project: Automated Management
+    playbook: snapshot_instance.yml
+    inventory: Workshop Inventory
+    limit: control
+    extra_vars:
+      ec2_region: us-east-1
+      instances:
+        tags:
+          guid: test01
+          Student: student1
+          username: centos
+
+  - name: CONVERT2RHEL / 02 - Upgrade OS to latest release
+    description: Upgrade OS to latest available packages
+    project: Automated Management
+    playbook: upgrade_instance.yml
+    inventory: CentOS7 Development
+    extra_vars:
+      ec2_region: us-east-1
+
+  - name: CONVERT2RHEL / 03 - convert2rhel
+    description: Upgrade OS to latest available packages
+    project: Automated Management
+    playbook: c2r.yml
+    inventory: ALL Development
+    credentials:
+      - Workshop Credential
+
+  - name: CONVERT2RHEL / 98 - Revert node state via snapshot
+    description: Revert via snapshot - selection via EC2 instance tags
+    project: Automated Management
+    playbook: snapshot_revert.yml
+    inventory: Workshop Inventory
+    limit: control
+    extra_vars:
+      ec2_region: us-east-1
+      instances:
+        tags:
+          guid: test01
+          Student: student1
+          username: centos
+
+  - name: CONVERT2RHEL / 99 - Delete snapshot
+    description: Delete snapshot - selection via EC2 snapshot tags
+    project: Automated Management
+    playbook: snapshot_delete.yml
+    inventory: Workshop Inventory
+    limit: control
+    extra_vars:
+      ec2_region: us-east-1
+      snapshots:
+        tags:
+          guid: test01
+          Student: student1
+
+  - name: EC2 / Set instance tags based on Satellite(Foreman) facts
+    description: Set instance tags - selection via existing EC2 instance tags
+    project: Automated Management
+    playbook: query_satellite_resource_info_hosts_set_instance_tags.yml
+    inventory: Workshop Inventory
+    credentials:
+      - Satellite Credential
+    extra_vars:
+      ec2_region: us-east-1
+      instances:
+        tags:
+          guid: test01
+          Student: student1
+          short_name: node*
