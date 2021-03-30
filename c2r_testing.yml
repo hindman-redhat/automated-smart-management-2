@@ -2,6 +2,11 @@
 - hosts: "env_{{ rhel_lifecycle_environment }}"
   become: false
   tasks:
+  - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
+    yum:
+      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
+      state: present
+      
   - name: Interrogate one RHEL node to get requisite files for convert2rhel requirements
     block:
       - name: verify operating system
@@ -73,11 +78,6 @@
       path: "{{ item.path }}"
       state: absent
     with_items: "{{ repo_files_to_delete.files }}"
-
-  - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
-    yum:
-      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
-      state: present
 
   - name: Pull katello-ca-consumer package from satellite server and place under /usr/share/convert2rhel/subscription-manager
     get_url:
