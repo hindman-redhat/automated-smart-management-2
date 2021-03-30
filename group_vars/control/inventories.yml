@@ -199,7 +199,7 @@ tower_inventory_sources:
     inventory: ALL Development
     source: scm
     source_project: Automated Management
-    source_path: inventory/inventory_rhel7_dev.aws_ec2
+    source_path: inventory/inventory_rhel7_dev.aws_ec2.yml
     overwrite: true
     update_on_launch: true
     update_cache_timeout: 0
