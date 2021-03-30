@@ -2,11 +2,6 @@
 - hosts: "env_{{ rhel_lifecycle_environment }}"
   become: false
   tasks:
-  - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
-    yum:
-      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
-      state: present
-      
   - name: Interrogate one RHEL node to get requisite files for convert2rhel requirements
     block:
       - name: verify operating system
@@ -65,6 +60,11 @@
   - name: verify operating system
     assert:
       that: "ansible_distribution == 'CentOS'"
+
+  - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
+    yum:
+      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
+      state: present
 
   - name: filter repo files from centos-release base
     find:
