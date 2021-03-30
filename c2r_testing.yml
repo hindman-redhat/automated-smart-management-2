@@ -162,3 +162,7 @@
 
   - name: Move rhel_satellite.repo to redhat.repo
     command: mv /etc/yum.repos.d/rhel_satellite.repo /etc/yum.repos.d/redhat.repo
+
+  - name: Update subscription-manager facts to notify Satellite of node's RHEL status
+    command: >-
+      subscription-manager facts --update
