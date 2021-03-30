@@ -3,7 +3,7 @@ tower_inventories:
   - name: Workshop Inventory
     organization: Default
 
-  - name: AWS Inventory - Development
+  - name: CentOS7 Development
     organization: Default
     variables:
       ansible_user: centos
@@ -14,7 +14,38 @@ tower_inventories:
           guid: test01
           Student: student1
 
-  - name: AWS Inventory - Production
+  - name: CentOS7 Production
+    organization: Default
+    variables:
+      ansible_user: centos
+      instances:
+        tags:
+          ContentView: CentOS7
+          Environment: Prod
+          guid: test01
+          Student: student1
+
+  - name: RHEL7 Development
+    organization: Default
+    variables:
+      instances:
+        tags:
+          ContentView: RHEL7
+          Environment: Dev
+          guid: test01
+          Student: student1
+
+  - name: RHEL7 Production
+    organization: Default
+    variables:
+      instances:
+        tags:
+          ContentView: RHEL7
+          Environment: Prod
+          guid: test01
+          Student: student1
+
+  - name: ALL Development
     organization: Default
 
 tower_inventory_sources:
@@ -33,8 +64,8 @@ tower_inventory_sources:
         - prefix: os
           key: foreman_operatingsystem_name
 
-  - name: EC2 Dynamic Source - Development
-    inventory: AWS Inventory - Development
+  - name: EC2 Dynamic Source - CentOS7 Development
+    inventory: CentOS7 Development
     source: ec2
     source_vars:
       regions:
@@ -46,8 +77,6 @@ tower_inventory_sources:
         tag:guid: test01
       hostnames:
         - tag:NodeName
-        - tag:Name
-        - private-dns-name
       keyed_groups:
         - prefix: cv
           key: tags['ContentView']
@@ -60,12 +89,13 @@ tower_inventory_sources:
       compose:
         # set the ansible_host variable to connect with the private IP address without changing the hostname
         ansible_host: private_ip_address
+        ansible_user: "'centos'"
     overwrite: true
     update_on_launch: true
     update_cache_timeout: 0
 
-  - name: EC2 Dynamic Source - Production
-    inventory: AWS Inventory - Production
+  - name: EC2 Dynamic Source - CentOS7 Production
+    inventory: CentOS7 Production
     source: ec2
     source_vars:
       regions:
@@ -91,6 +121,85 @@ tower_inventory_sources:
       compose:
         # set the ansible_host variable to connect with the private IP address without changing the hostname
         ansible_host: private_ip_address
+        ansible_user: "'centos'"
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+
+  - name: EC2 Dynamic Source - RHEL7 Development
+    inventory: RHEL7 Development
+    source: ec2
+    source_vars:
+      regions:
+        - us-east-1
+      filters:
+        tag:ContentView: RHEL7
+        tag:Environment: Dev
+        tag:Student: student1
+        tag:guid: test01
+      hostnames:
+        - tag:NodeName
+      keyed_groups:
+        - prefix: cv
+          key: tags['ContentView']
+        - prefix: env
+          key: tags['ContentView'] ~ '_' ~ tags['Environment']
+        - prefix: os
+          key: tags['foreman_operatingsystem_name']
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
+        ansible_host: private_ip_address
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+
+  - name: EC2 Dynamic Source - RHEL7 Production
+    inventory: RHEL7 Production
+    source: ec2
+    source_vars:
+      regions:
+        - us-east-1
+      filters:
+        tag:ContentView: RHEL7
+        tag:Environment: Prod
+        tag:Student: student1
+        tag:guid: test01
+      hostnames:
+        - tag:NodeName
+        - tag:Name
+        - private-dns-name
+      keyed_groups:
+        - prefix: cv
+          key: tags['ContentView']
+        - prefix: env
+          key: tags['ContentView'] ~ '_' ~ tags['Environment']
+        - prefix: os
+          key: tags['foreman_operatingsystem_name']
+        - prefix: AnsibleGroup
+          key: tags['AnsibleGroup']
+      compose:
+        # set the ansible_host variable to connect with the private IP address without changing the hostname
+        ansible_host: private_ip_address
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+
+  - name: inventory_centos7_dev.aws_ec2
+    inventory: ALL Development
+    source: scm
+    source_project: Automated Management
+    source_path: inventory/inventory_centos7_dev.aws_ec2.yml
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+
+  - name: inventory_rhel7_dev.aws_ec2
+    inventory: ALL Development
+    source: scm
+    source_project: Automated Management
+    source_path: inventory/inventory_rhel7_dev.aws_ec2
     overwrite: true
     update_on_launch: true
     update_cache_timeout: 0
