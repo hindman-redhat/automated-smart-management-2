@@ -287,6 +287,7 @@ tower_templates:
       ec2_region: us-east-1
       instances:
         tags:
+          short_name: node*
           guid: smrtmgmt01
           Student: student1
           username: centos
