@@ -10,6 +10,6 @@
       register: hammer_disconnect
       ignore_errors: true
 
-  - name: hammer disconnected mode switch output 
-    debug:
-      msg: "{{ hammer_disconnect }}"
+    - name: hammer disconnected mode switch output 
+      debug:
+        msg: "{{ hammer_disconnect }}"
