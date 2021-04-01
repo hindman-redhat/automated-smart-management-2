@@ -260,7 +260,7 @@ tower_templates:
       instances:
         tags:
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
           short_name: node*
 
   - name: SERVER / Stop node via ec2_node_tools
@@ -274,7 +274,7 @@ tower_templates:
       instances:
         tags:
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
           short_name: node*
 
   - name: CONVERT2RHEL / 01 - Take node snapshot
@@ -289,7 +289,7 @@ tower_templates:
         tags:
           short_name: node*
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
           username: centos
 
   - name: CONVERT2RHEL / 02 - Upgrade OS to latest release
@@ -336,7 +336,7 @@ tower_templates:
       instances:
         tags:
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
           username: centos
 
   - name: CONVERT2RHEL / 99 - Delete snapshot
@@ -350,7 +350,7 @@ tower_templates:
       snapshots:
         tags:
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
 
   - name: EC2 / Set instance tags based on Satellite(Foreman) facts
     description: Set instance tags - selection via existing EC2 instance tags
@@ -364,5 +364,5 @@ tower_templates:
       instances:
         tags:
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
           short_name: node*
