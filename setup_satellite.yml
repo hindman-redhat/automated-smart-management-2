@@ -1,5 +1,15 @@
 ---
 - hosts: "{{ HOSTS | default('satellite.example.com') }}"
+  become: true
+  tasks:
+    - name: Turn off disconnected mode
+      command: >-
+        hammer settings set --name content_disconnected --value false
+      register: hammer_disconnect_off
+      ignore_errors: true
+
+#- hosts: "{{ HOSTS | default('satellite.example.com') }}"
+- hosts: "{{ HOSTS | default('control[0]') }}"
   connection: local
   vars:
     satellite_infra_workloads:
@@ -12,12 +22,6 @@
     - name: check satellite status
       redhat.satellite.status_info:
         validate_certs: false
-
-    - name: Turn off disconnected mode
-      command: >-
-        hammer settings set --name content_disconnected --value false
-      register: hammer_disconnect_off
-      ignore_errors: true
 
     - name: refresh manifest
       redhat.satellite.subscription_manifest:
