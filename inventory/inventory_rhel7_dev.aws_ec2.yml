@@ -5,7 +5,7 @@ regions:
 filters:
   tag:ContentView: RHEL7
   tag:Environment: Dev
-  tag:Student: student1
+  tag:Student: student2
   tag:guid: smrtmgmt01
 hostnames:
   - tag:NodeName
