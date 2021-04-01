@@ -2,6 +2,7 @@
 - hosts: "{{ HOSTS | default('satellite.example.com') }}"
   connection: local
   vars:
+    refresh_satellite_manifest: false
     satellite_infra_workloads:
       - theforeman.foreman.repositories
       - theforeman.foreman.lifecycle_environments
@@ -19,7 +20,7 @@
         state: refreshed
       async: 2000
       poll: 60
-      when: '{{ refresh_satellite_manifest | default(false) }}'
+      when: refresh_satellite_manifest
 
     - name: deploy satellite_infra workloads
       include_role:
