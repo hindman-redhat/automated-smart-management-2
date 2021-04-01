@@ -63,7 +63,7 @@
 
   - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
     yum:
-      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
+      name: https://github.com/oamg/convert2rhel/releases/download/v0.17/convert2rhel-0.17-1.el7.noarch.rpm
       state: present
 
   - name: filter repo files from centos-release base
