@@ -13,13 +13,19 @@
       redhat.satellite.status_info:
         validate_certs: false
 
-#    - name: refresh manifest
-#      redhat.satellite.subscription_manifest:
-#        organization: "Default Organization"
-#        state: refreshed
-#      async: 2000
-#      poll: 60
-#      when: '{{ refresh_satellite_manifest | | default(false) }}'
+    - name: Turn off disconnected mode
+      command: >-
+        hammer settings set --name content_disconnected --value false
+      register: hammer_disconnect_off
+      ignore_errors: true
+
+    - name: refresh manifest
+      redhat.satellite.subscription_manifest:
+        organization: "Default Organization"
+        state: refreshed
+      async: 2000
+      poll: 60
+      when: '{{ refresh_satellite_manifest | | default(false) }}'
 
     - name: deploy satellite_infra workloads
       include_role:
