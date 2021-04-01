@@ -116,11 +116,11 @@
     #changed_when: "'i' not in cert_file.diff.before.attributes"
 
   # Continue repo file shell game...
-  - name: Move redhat.repo to rhel_satellite.repo
-    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/rhel_satellite.repo
+  #- name: Move redhat.repo to rhel_satellite.repo
+  #  command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/rhel_satellite.repo
 
-  - name: Move centos_satellite.repo to redhat.repo
-    command: mv /etc/yum.repos.d/centos_satellite.repo /etc/yum.repos.d/redhat.repo
+  #- name: Move centos_satellite.repo to redhat.repo
+  #  command: mv /etc/yum.repos.d/centos_satellite.repo /etc/yum.repos.d/redhat.repo
 
   - name: Launch conversion asynchronously
     command: >-
@@ -155,14 +155,14 @@
       timeout: 300
 
   # Final chapter in the repo file shell game...
-  - name: Remove temporary redhat.repo
-    file:
-      path: /etc/yum.repos.d/redhat.repo
-      state: absent
+  #- name: Remove temporary redhat.repo
+  #  file:
+  #    path: /etc/yum.repos.d/redhat.repo
+  #    state: absent
 
-  - name: Move rhel_satellite.repo to redhat.repo
-    command: mv /etc/yum.repos.d/rhel_satellite.repo /etc/yum.repos.d/redhat.repo
+  #- name: Move rhel_satellite.repo to redhat.repo
+  #  command: mv /etc/yum.repos.d/rhel_satellite.repo /etc/yum.repos.d/redhat.repo
 
-  - name: Update subscription-manager facts to notify Satellite of node's RHEL status
-    command: >-
-      subscription-manager facts --update
+  #- name: Update subscription-manager facts to notify Satellite of node's RHEL status
+  #  command: >-
+  #    subscription-manager facts --update
