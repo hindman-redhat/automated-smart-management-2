@@ -8,8 +8,8 @@
       register: hammer_disconnect_off
       ignore_errors: true
 
-#- hosts: "{{ HOSTS | default('satellite.example.com') }}"
-- hosts: "{{ HOSTS | default('control[0]') }}"
+- hosts: "{{ HOSTS | default('satellite.example.com') }}"
+#- hosts: "{{ HOSTS | default('control[0]') }}"
   connection: local
   vars:
     satellite_infra_workloads:
