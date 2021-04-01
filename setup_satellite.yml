@@ -3,6 +3,8 @@
   connection: local
   vars:
     refresh_satellite_manifest: false
+    refresh_timeout: 14400
+    refresh_retry_interval: 15
     satellite_infra_workloads:
       - theforeman.foreman.repositories
       - theforeman.foreman.lifecycle_environments
@@ -18,9 +20,18 @@
       redhat.satellite.subscription_manifest:
         organization: "Default Organization"
         state: refreshed
-      async: 2000
-      poll: 60
+      async: "{{ refresh_timeout }}"
+      poll: 0
+      register: refresh_async
       when: refresh_satellite_manifest
+
+    - name: Check if manifest refresh task is finished
+      async_status:
+        jid: "{{ refresh_async.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: "{{ ( refresh_timeout / refresh_retry_interval ) | int }}"
+      delay: "{{ refresh_retry_interval }}"
 
     - name: deploy satellite_infra workloads
       include_role:
