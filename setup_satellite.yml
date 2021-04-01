@@ -32,6 +32,7 @@
       until: job_result.finished
       retries: "{{ ( refresh_timeout / refresh_retry_interval ) | int }}"
       delay: "{{ refresh_retry_interval }}"
+      when: refresh_satellite_manifest
 
     - name: deploy satellite_infra workloads
       include_role:
