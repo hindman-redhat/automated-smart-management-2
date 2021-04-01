@@ -11,6 +11,7 @@
 - hosts: "{{ HOSTS | default('satellite.example.com') }}"
 #- hosts: "{{ HOSTS | default('control[0]') }}"
   connection: local
+  gather_facts: false
   vars:
     satellite_infra_workloads:
       - theforeman.foreman.repositories
