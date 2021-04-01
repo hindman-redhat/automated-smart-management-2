@@ -63,21 +63,21 @@
 
   - name: Install convert2rhel rpm from Red Hat OS and App Modernization Group GitHub
     yum:
-      name: https://github.com/oamg/convert2rhel/releases/download/v0.17/convert2rhel-0.17-1.el7.noarch.rpm
+      name: https://github.com/oamg/convert2rhel/releases/download/v0.20/convert2rhel-0.20-1.el7.noarch.rpm
       state: present
 
-  - name: filter repo files from centos-release base
-    find:
-      paths: /etc/yum.repos.d
-      patterns: "CentOS*.repo"
-      use_regex: true
-    register: repo_files_to_delete
+  #- name: filter repo files from centos-release base
+  #  find:
+  #    paths: /etc/yum.repos.d
+  #    patterns: "CentOS*.repo"
+  #    use_regex: true
+  #  register: repo_files_to_delete
 
-  - name: remove repo files from centos-release base
-    file:
-      path: "{{ item.path }}"
-      state: absent
-    with_items: "{{ repo_files_to_delete.files }}"
+  #- name: remove repo files from centos-release base
+  #  file:
+  #    path: "{{ item.path }}"
+  #    state: absent
+  #  with_items: "{{ repo_files_to_delete.files }}"
 
   - name: Pull katello-ca-consumer package from satellite server and place under /usr/share/convert2rhel/subscription-manager
     get_url:
@@ -92,13 +92,17 @@
       create: yes
     when: (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6') or (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
 
-  - name: stat redhat.repo
-    stat: path=/etc/yum.repos.d/redhat.repo
-    register: redhat_repofile_stat
+  - name: Unregister node during convert2rhel process
+    command: >-
+      subscription-manager unregister
 
-  - name: Move redhat.repo to centos_satellite.repo
-    command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/centos_satellite.repo
-    when: redhat_repofile_stat.stat.exists
+  #- name: stat redhat.repo
+  #  stat: path=/etc/yum.repos.d/redhat.repo
+  #  register: redhat_repofile_stat
+
+  #- name: Move redhat.repo to centos_satellite.repo
+  #  command: mv /etc/yum.repos.d/redhat.repo /etc/yum.repos.d/centos_satellite.repo
+  #  when: redhat_repofile_stat.stat.exists
 
   - name: Unslurp via Copy content "{{ item['source'] }}" from control to centos node
     copy:
@@ -153,6 +157,14 @@
       sleep: 5
       delay: 5
       timeout: 300
+
+  - name: Register system to Satellite as new RHEL node
+    include_role:
+      name: rhsm_register
+    vars:
+      env: "{{ rhel_lifecycle_environment.split('_')[1] }}"
+      activation_key: "{{ rhel_lifecycle_environment }}"
+      sat_url: satellite.example.com
 
   # Final chapter in the repo file shell game...
   #- name: Remove temporary redhat.repo
