@@ -12,7 +12,7 @@ tower_inventories:
           ContentView: CentOS7
           Environment: Dev
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
 
   - name: CentOS7 Production
     organization: Default
@@ -23,7 +23,7 @@ tower_inventories:
           ContentView: CentOS7
           Environment: Prod
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
 
   - name: RHEL7 Development
     organization: Default
@@ -33,7 +33,7 @@ tower_inventories:
           ContentView: RHEL7
           Environment: Dev
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
 
   - name: RHEL7 Production
     organization: Default
@@ -43,7 +43,7 @@ tower_inventories:
           ContentView: RHEL7
           Environment: Prod
           guid: smrtmgmt01
-          Student: student1
+          Student: student2
 
   - name: ALL Development
     organization: Default
@@ -73,7 +73,7 @@ tower_inventory_sources:
       filters:
         tag:ContentView: CentOS7
         tag:Environment: Dev
-        tag:Student: student1
+        tag:Student: student2
         tag:guid: smrtmgmt01
       hostnames:
         - tag:NodeName
@@ -103,7 +103,7 @@ tower_inventory_sources:
       filters:
         tag:ContentView: CentOS7
         tag:Environment: Prod
-        tag:Student: student1
+        tag:Student: student2
         tag:guid: smrtmgmt01
       hostnames:
         - tag:NodeName
@@ -135,7 +135,7 @@ tower_inventory_sources:
       filters:
         tag:ContentView: RHEL7
         tag:Environment: Dev
-        tag:Student: student1
+        tag:Student: student2
         tag:guid: smrtmgmt01
       hostnames:
         - tag:NodeName
@@ -164,7 +164,7 @@ tower_inventory_sources:
       filters:
         tag:ContentView: RHEL7
         tag:Environment: Prod
-        tag:Student: student1
+        tag:Student: student2
         tag:guid: smrtmgmt01
       hostnames:
         - tag:NodeName
